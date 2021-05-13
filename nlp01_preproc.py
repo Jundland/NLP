@@ -10,9 +10,9 @@ def txt_no_punct(df, col):
     return df
 
 
-# 1.3 remove underscores
-def txt_no_underscore(df, col):
-    df[col] = df[col].str.replace("_", " ")
+# 1.3 replace a char
+def txt_replace_char(df, col, char_old, char_new):
+    df[col] = df[col].str.replace(char_old, char_new)
     return df
 
 

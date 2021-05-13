@@ -72,6 +72,84 @@ def txt_no_stopwords(df, col):
 # 1.9 remove custom words
 def txt_no_customwords(df, col, exc_set):
     df[col] = df[col].apply(
-        lambda x: " ".join(x for x in x.split() if x not in exc_list)
+        lambda x: " ".join(x for x in x.split() if x not in exc_set)
     )
+    return df
+
+
+# 1.10 word counts
+def txt_word_counts(df, col):
+    df["word_ct"] = df[col].apply(lambda x: len(str(x).split(" ")))
+    return df
+
+
+# 1.11 lemmatize (wordnet + POS)
+def txt_lemmatize(df, col):
+    import nltk
+    from nltk.tokenize import word_tokenize
+    from nltk.stem.wordnet import WordNetLemmatizer
+    from nltk.corpus import wordnet
+
+    lemmatizer = nltk.stem.WordNetLemmatizer()
+    wordnet_lemmatizer = WordNetLemmatizer()
+
+    def nltk_tag_to_wordnet_tag(nltk_tag):
+        if nltk_tag.startswith("J"):
+            return wordnet.ADJ
+        if nltk_tag.startswith("V"):
+            return wordnet.VERB
+        if nltk_tag.startswith("N"):
+            return wordnet.NOUN
+        if nltk_tag.startswith("R"):
+            return wordnet.ADV
+        else:
+            return None
+
+    def lemmatize_sentence(sentence):
+        # tokenize the sentence and find the POS for each token
+        nltk_tagged = nltk.pos_tag(nltk.word_tokenize(sentence))
+        # typle of token, wordnet tag
+        wordnet_tagged = map(
+            lambda x: (x[0], nltk_tag_to_wordnet_tag(x[1])), nltk_tagged
+        )
+        lemmatized_sentence = []
+        for word, tag in wordnet_tagged:
+            if tag is None:
+                # if no tag then append word as-is
+                lemmatized_sentence.append(word)
+            else:
+                lemmatized_sentence.append(lemmatizer.lemmatize(word, tag))
+        return " ".join(lemmatized_sentence)
+
+    df[col] = df[col].apply(lambda x: lemmatize_sentence(x))
+    return df
+
+
+# 1.12 stemming (snowball)
+def txt_stemmer(df, col):
+    def stem_sentence(sentence):
+        import nltk
+        from nltk.stem import SnowballStemmer
+
+        stemmer = SnowballStemmer(language="english")
+        words = nltk.word_tokenize(sentence)
+        new_words = []
+        for word in words:
+            x = stemmer.stem(word)
+            new_words.append(x)
+        return new_words
+
+    df[col] = df[col].apply(lambda x: " ".join(stem_sentence(x)))
+    return df
+
+
+# 1.13 filtering parts of speech
+def txt_filter_pos(df, col, pos_set):
+    def filter_pos(text, pos_set):
+        from textblob import TextBlob
+
+        blob = TextBlob(text)
+        return [word for (word, tag) in blob.tags if tag in pos_set]
+
+    df[col] = df[col].apply(lambda x: " ".join(filter_pos(x, pos_set)))
     return df

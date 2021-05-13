@@ -1,4 +1,4 @@
-import nlp01_preproc
+from nlp01_preproc import txt_to_lower
 import pandas as pd
 
 df_raw = [
@@ -29,5 +29,16 @@ df_clean = txt_no_underscore(df_clean, "text_clean")
 df_clean = txt_no_whitespace(df_clean, "text_clean")
 df_clean = txt_no_numbers(df_clean, "text_clean")
 df_clean = txt_replace_numbers(df_clean, "text_clean")
+df_clean = txt_asci_only(df_clean, "text_clean")
+df_clean = txt_no_stopwords(df_clean, "text_clean")
+exc_set = ["running", "great"]
+df_clean = txt_no_customwords(df_clean, "text_clean", exc_set)
+
+df_clean = txt_word_counts(df_clean, "text_clean")
+df_clean = txt_stemmer(df_clean, "text_clean")
+df_clean = txt_lemmatize(df_clean, "text_clean")
+
+pos_set = ["JJ"]
+df_clean = txt_filter_pos(df_clean, "text_clean", pos_set)
 
 df_clean

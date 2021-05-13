@@ -1,6 +1,8 @@
 # a repo for everyday Natural Language Processing (NLP)
-
+ 
+ 
 ## nlp01_preproc.py
+functions for preprocessing text in df
 - 1.1 transform to lowercase
 - 1.2 removing punctuation
 - 1.3 removing specific chars

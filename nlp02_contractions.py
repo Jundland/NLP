@@ -1,4 +1,4 @@
-# 2.1 contractions
+# 2.1 contractions using dictionary
 def txt_contractions(df, col):
 
     cont_dict = {
@@ -193,3 +193,10 @@ def txt_contractions(df, col):
         lambda x: " ".join(cont_dict[x] if x in cont_dict else x for x in x.split())
     )
     return df
+
+
+# 2.2 expanding using contractions library
+# https://www.geeksforgeeks.org/nlp-expand-contractions-in-text-processing/
+
+# 2.3 expanding using pycontractions library
+# https://pypi.org/project/pycontractions/

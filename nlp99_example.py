@@ -1,5 +1,6 @@
 from nlp01_preproc import txt_to_lower
 from nlp02_contractions import txt_contractions
+from nlp03_sentiment import txt_sentiment_tb, txt_sentiment_vd
 import pandas as pd
 
 df_raw = [
@@ -25,7 +26,13 @@ df_raw = [
 df_clean = pd.DataFrame(df_raw, columns=["Comment", "ID"])
 df_clean["text_clean"] = df_clean["Comment"]
 
+df_clean = txt_sentiment_vd(df_clean, "text_clean")
+
 df_clean
+
+
+df_clean = txt_sentiment_tb(df_clean, "text_clean")
+
 
 df_clean = txt_to_lower(df_clean, "text_clean")
 df_clean = txt_contractions(df_clean, "text_clean")

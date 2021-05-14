@@ -1,4 +1,4 @@
-# 1.14 contractions
+# 2.1 contractions
 def txt_contractions(df, col):
 
     cont_dict = {

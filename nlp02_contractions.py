@@ -1,6 +1,12 @@
 # 2.1 contractions using dictionary
 def txt_contractions(df, col):
+    """
+    txt_contractions expands contractions from a custom dictionary defined in the function
 
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     cont_dict = {
         "ain't": "is not",
         "aint": "is not",

@@ -1,35 +1,79 @@
 # 1.1 transform to lower case
 def txt_to_lower(df, col):
+    """
+    txt_to_lower transforms all text to lowercase
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     df[col] = df[col].str.lower()
     return df
 
 
 # 1.2 remove punctuation
 def txt_no_punct(df, col):
+    """
+    txt_no_punct removes all text/punctuation except words, numbers, spaces and dashes
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     df[col] = df[col].str.replace("[^\w\s\-]", " ")  # keep w=words s=spaces -= dash
     return df
 
 
 # 1.3 replace a char
 def txt_replace_char(df, col, char_old, char_new):
+    """
+    txt_replace_char replaces a specific character defined in the inputs with another character also defined in inputs
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :param char_old: character to be replaced in text (e.g. '_')
+    :param char_new: character it will be replaced with (e.g. ' ')
+    :return: returns the transformed dataframe
+    """
     df[col] = df[col].str.replace(char_old, char_new)
     return df
 
 
 # 1.4 remove whitespace
 def txt_no_whitespace(df, col):
+    """
+    txt_no_whitespace replaces excessive whitespace (i.e. more than one space sequentially) with a single space
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     df[col] = df[col].str.replace("  ", " ")
     return df
 
 
 # 1.5 remove numbers
 def txt_no_numbers(df, col):
+    """
+    txt_no_numbers removes all numerical digits (i.e. 0,1,2,3,4,5,6,7,8,9) from text
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     df[col] = df[col].str.replace("\d+", "")
     return df
 
 
 # 1.6 replace number digits with text
 def txt_replace_numbers(df, col):
+    """
+    txt_replace_numbers replaces numerical digits with the alphabetical version (e.g. replaces 500 with five hundred)
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     import nltk
     import inflect
 
@@ -49,8 +93,15 @@ def txt_replace_numbers(df, col):
     return df
 
 
-# 1.7 remove non-ASCI
-def txt_asci_only(df, col):
+# 1.7 remove non-ASCII characters
+def txt_ascii_only(df, col):
+    """
+    txt_ascii_only removes all non asci characters from the text
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     from string import printable
 
     inc_set = set(printable)
@@ -62,6 +113,13 @@ def txt_asci_only(df, col):
 
 # 1.8 remove stop words
 def txt_no_stopwords(df, col):
+    """
+    txt_no_stopwords removes all stopwords from the text
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     from nltk.corpus import stopwords
 
     stop = stopwords.words("english")
@@ -71,6 +129,14 @@ def txt_no_stopwords(df, col):
 
 # 1.9 remove custom words
 def txt_no_customwords(df, col, exc_set):
+    """
+    txt_no_customwords removes manually defined words contained in a set
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :param exc_set: set containing words to be excluded
+    :return: returns the transformed dataframe
+    """
     df[col] = df[col].apply(
         lambda x: " ".join(x for x in x.split() if x not in exc_set)
     )
@@ -79,12 +145,26 @@ def txt_no_customwords(df, col, exc_set):
 
 # 1.10 word counts
 def txt_word_counts(df, col):
+    """
+    txt_word_counts adds high level word count to the dataframe
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     df["word_ct"] = df[col].apply(lambda x: len(str(x).split(" ")))
     return df
 
 
 # 1.11 lemmatize (wordnet + POS)
 def txt_lemmatize(df, col):
+    """
+    txt_lemmatize uses the WordNet lemmatizer to lemmatize text
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     import nltk
     from nltk.tokenize import word_tokenize
     from nltk.stem.wordnet import WordNetLemmatizer
@@ -127,6 +207,13 @@ def txt_lemmatize(df, col):
 
 # 1.12 stemming (snowball)
 def txt_stemmer(df, col):
+    """
+    txt_stemmer uses the Snowball stemmer to stem the text
+
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     def stem_sentence(sentence):
         import nltk
         from nltk.stem import SnowballStemmer
@@ -145,6 +232,13 @@ def txt_stemmer(df, col):
 
 # 1.13 filtering parts of speech
 def txt_filter_pos(df, col, pos_set):
+    """
+    txt_filter_pos uses TextBlob part of speech tags to filter the text for specific pos (e.g. adjectives)
+    
+    :param df: dataframe containing text to be transformed
+    :param col: column in dataframe containing text to be transformed
+    :return: returns the transformed dataframe
+    """
     def filter_pos(text, pos_set):
         from textblob import TextBlob
 

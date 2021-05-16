@@ -1,4 +1,4 @@
-# 1.1 transform to lower case
+# 1.01 transform to lower case
 def txt_to_lower(df, col):
     """
     txt_to_lower transforms all text to lowercase
@@ -11,20 +11,23 @@ def txt_to_lower(df, col):
     return df
 
 
-# 1.2 remove punctuation
+# 1.02 remove punctuation
 def txt_no_punct(df, col):
     """
-    txt_no_punct removes all text/punctuation except words, numbers, spaces and dashes
+    txt_no_punct replaces all punctuation with a space (leaving just words, numbers, spaces and dashes)
+    it then replaces excessive whitespace (i.e. more than one space sequentially) with a single space
+    and then trims the text to remove leading/trailing spaces
 
     :param df: dataframe containing text to be transformed
     :param col: column in dataframe containing text to be transformed
     :return: returns the transformed dataframe
     """
     df[col] = df[col].str.replace("[^\w\s\-]", " ")  # keep w=words s=spaces -= dash
+    df[col] = df[col].str.strip()
     return df
 
 
-# 1.3 replace a char
+# 1.03 replace a char
 def txt_replace_char(df, col, char_old, char_new):
     """
     txt_replace_char replaces a specific character defined in the inputs with another character also defined in inputs
@@ -39,20 +42,23 @@ def txt_replace_char(df, col, char_old, char_new):
     return df
 
 
-# 1.4 remove whitespace
+# 1.04 remove whitespace
 def txt_no_whitespace(df, col):
     """
-    txt_no_whitespace replaces excessive whitespace (i.e. more than one space sequentially) with a single space
+    txt_no_whitespace replaces all whitespace (including tabs) with a single space
+    and then trims the text to remove leading/trailing spaces
 
     :param df: dataframe containing text to be transformed
     :param col: column in dataframe containing text to be transformed
     :return: returns the transformed dataframe
     """
-    df[col] = df[col].str.replace("  ", " ")
+
+    df[col] = df[col].str.replace("\s+", " ")
+    df[col] = df[col].str.strip()
     return df
 
 
-# 1.5 remove numbers
+# 1.05 remove numbers
 def txt_no_numbers(df, col):
     """
     txt_no_numbers removes all numerical digits (i.e. 0,1,2,3,4,5,6,7,8,9) from text
@@ -65,7 +71,7 @@ def txt_no_numbers(df, col):
     return df
 
 
-# 1.6 replace number digits with text
+# 1.06 replace number digits with text
 def txt_replace_numbers(df, col):
     """
     txt_replace_numbers replaces numerical digits with the alphabetical version (e.g. replaces 500 with five hundred)
@@ -93,7 +99,7 @@ def txt_replace_numbers(df, col):
     return df
 
 
-# 1.7 remove non-ASCII characters
+# 1.07 remove non-ASCII characters
 def txt_ascii_only(df, col):
     """
     txt_ascii_only removes all non asci characters from the text
@@ -111,7 +117,7 @@ def txt_ascii_only(df, col):
     return df
 
 
-# 1.8 remove stop words
+# 1.08 remove stop words
 def txt_no_stopwords(df, col):
     """
     txt_no_stopwords removes all stopwords from the text
@@ -127,7 +133,7 @@ def txt_no_stopwords(df, col):
     return df
 
 
-# 1.9 remove custom words
+# 1.09 remove custom words
 def txt_no_customwords(df, col, exc_set):
     """
     txt_no_customwords removes manually defined words contained in a set
@@ -214,6 +220,7 @@ def txt_stemmer(df, col):
     :param col: column in dataframe containing text to be transformed
     :return: returns the transformed dataframe
     """
+
     def stem_sentence(sentence):
         import nltk
         from nltk.stem import SnowballStemmer
@@ -234,11 +241,12 @@ def txt_stemmer(df, col):
 def txt_filter_pos(df, col, pos_set):
     """
     txt_filter_pos uses TextBlob part of speech tags to filter the text for specific pos (e.g. adjectives)
-    
+
     :param df: dataframe containing text to be transformed
     :param col: column in dataframe containing text to be transformed
     :return: returns the transformed dataframe
     """
+
     def filter_pos(text, pos_set):
         from textblob import TextBlob
 

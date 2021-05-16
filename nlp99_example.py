@@ -1,4 +1,4 @@
-from nlp01_preproc import txt_to_lower
+from nlp01_preproc import txt_no_punct, txt_single_spaces
 from nlp02_contractions import txt_contractions
 from nlp03_sentiment import txt_sentiment_tb, txt_sentiment_vd
 import pandas as pd
@@ -15,7 +15,7 @@ df_raw = [
     ["GREAT!", 9],
     ["this app is great", 10],
     ["this app is great!", 11],
-    ["this app is great!!!", 12],
+    ["this app is great!!! I love it", 12],
     ["this app is GREAT!!!", 13],
     ["connect connected connection connections connects", 14],
     ["trouble troubled troubles troublesome", 15],
@@ -26,21 +26,19 @@ df_raw = [
 df_clean = pd.DataFrame(df_raw, columns=["Comment", "ID"])
 df_clean["text_clean"] = df_clean["Comment"]
 
-df_clean = txt_sentiment_vd(df_clean, "text_clean")
-
+df_clean = txt_no_punct(df_clean, "text_clean")
+df_clean = txt_single_spaces(df_clean, "text_clean")
 df_clean
 
 
 df_clean = txt_sentiment_tb(df_clean, "text_clean")
-
+df_clean = txt_sentiment_vd(df_clean, "text_clean")
 
 df_clean = txt_to_lower(df_clean, "text_clean")
 df_clean = txt_contractions(df_clean, "text_clean")
 
-df_clean = txt_no_punct(df_clean, "text_clean")
 df_clean = txt_replace_char(df_clean, "text_clean", "_", " ")
 df_clean = txt_replace_char(df_clean, "text_clean", "#", " ")
-df_clean = txt_no_whitespace(df_clean, "text_clean")
 df_clean = txt_no_numbers(df_clean, "text_clean")
 df_clean = txt_replace_numbers(df_clean, "text_clean")
 df_clean = txt_asci_only(df_clean, "text_clean")

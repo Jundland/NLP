@@ -17,13 +17,13 @@ functions for preprocessing text in df
 - 1.12 stemming (snowball)
 - 1.13 parts of speech filter
 
-## nlp02_contractions.py
+### nlp02_contractions.py
 Contractions are words or combinations of words that are shortened by dropping letters and replacing them by an apostrophe.
 - 2.1 contractions using dictionary
 - 2.2 expanding using contractions library
 - 2.3 expanding using pycontractions library
 
-## nlp03_sentiment.py
+### nlp03_sentiment.py
 - 3.1 TextBlob
    - Outputs Polarity and Subjectivity
    - Polarity is a float between [-1, 1].  -1 indicates negative sentiment, and +1 indicates positive sentiment

@@ -1,4 +1,4 @@
-# a repo for everyday Natural Language Processing (NLP)
+## a repo for everyday Natural Language Processing in Python
  
  
 ## nlp01_preproc.py

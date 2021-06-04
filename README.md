@@ -32,8 +32,8 @@ Contractions are words or combinations of words that are shortened by dropping l
    - Outputs pos, neu, neg which is proportion of text attributed to positive, neutral or negative sentiment
    - Also outputs compound in the range [-1, 1], which is the normalized score of all lexicon ratings
 
-##### Notes on TextBlob and VADER sentiment
-##### - TextBlob may be preferred for formal text, and VADER for more informal text or social media
-##### - neither TextBlob or VADER differentiate based on upper/lower casing of text
-##### - TextBlob will differentiate sentiment based on punctuation (e.g. !) but not for repeated punctuation (e.g. !!!)
-##### - VADER will also differentiate sentiment based on repeated punctuation (e.g. ! vs !!!)
+Notes on TextBlob and VADER sentiment
+- TextBlob may be preferred for formal text, and VADER for more informal text or social media
+- neither TextBlob or VADER differentiate based on upper/lower casing of text
+- TextBlob will differentiate sentiment based on punctuation (e.g. !) but not for repeated punctuation (e.g. !!!)
+- VADER will also differentiate sentiment based on repeated punctuation (e.g. ! vs !!!)
